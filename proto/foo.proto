@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package foo;
+
+option go_package = "github.com/iancharters/kongpoc/proto/foo";
+
+import "google/api/annotations.proto";
+
+service FooService {
+  rpc GetHello(Request) returns (Reply) {
+    option (google.api.http) = {
+      get: "/hello/{name}"
+    };
+  }
+
+  rpc PostHello(Request) returns (Reply) {
+    option (google.api.http) = {
+      post: "/hello"
+      body: "*"
+    };
+  }
+}
+
+message Request {
+  string name = 1;
+}
+
+message Reply {
+  string message = 1;
+  int32 return_code = 2;
+}

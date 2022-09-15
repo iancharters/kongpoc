@@ -1,0 +1,11 @@
+title: UpdateUserRequest
+x-stoplight:
+  id: i4m5vjg3ypvg7
+type: object
+properties:
+  first_name:
+    type: string
+  last_name:
+    type: string
+  email:
+    type: string

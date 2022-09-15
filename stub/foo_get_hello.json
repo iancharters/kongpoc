@@ -1,0 +1,15 @@
+{
+  "service": "FooService",
+  "method": "GetHello",
+  "input": {
+    "equals": {
+      "name": "kong"
+    }
+  },
+  "output": {
+    "data": {
+      "message": "[GET] Hello Kong",
+      "return_code": 1
+    }
+  }
+}

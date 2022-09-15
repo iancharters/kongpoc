@@ -1,0 +1,26 @@
+title: User
+x-stoplight:
+  id: vbmt6l2as0l4p
+type: object
+description: ''
+examples: []
+properties:
+  id:
+    type: integer
+    description: Unique identifier for the given user.
+  first_name:
+    type: string
+  last_name:
+    type: string
+  email:
+    type: string
+    format: email
+  email_verified:
+    type: boolean
+    description: Set to true if the user's email has been verified.
+required:
+  - id
+  - first_name
+  - last_name
+  - email
+  - email_verified

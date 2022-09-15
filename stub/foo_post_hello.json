@@ -1,0 +1,15 @@
+{
+  "service": "FooService",
+  "method": "PostHello",
+  "input": {
+    "equals": {
+      "name": "kong"
+    }
+  },
+  "output": {
+    "data": {
+      "message": "[POST] Hello Kong",
+      "return_code": 1
+    }
+  }
+}

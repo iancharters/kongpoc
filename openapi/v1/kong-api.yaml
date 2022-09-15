@@ -1,0 +1,140 @@
+openapi: 3.1.0
+x-stoplight:
+  id: w99ni2jmb530p
+info:
+  title: Kong API
+  version: '1.0'
+  contact:
+    name: Ian Charters
+    url: github.com/iancharters
+    email: icharters@coalitioninc.com
+  summary: This is a summary about this API
+  description: This is a description of this API
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  '/users/{userId}':
+    parameters:
+      - schema:
+          type: integer
+        name: userId
+        in: path
+        required: true
+        description: Id of an existing user.
+    get:
+      summary: Get User Info by User ID
+      tags: ["User API"]
+      responses:
+        '200':
+          description: User Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples: {}
+        '404':
+          description: User Not Found
+      operationId: get-users-userId
+      description: Retrieve the information of the user with the matching user ID.
+    patch:
+      summary: Update User Information
+      tags: ["User API"]
+      operationId: patch-users-userId
+      responses:
+        '200':
+          description: User Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                Updated User Rebecca Baker:
+                  value:
+                    id: 13
+                    first_name: Rebecca
+                    last_name: Baker
+                    email: rebecca@gmail.com
+                    email_verified: false
+        '404':
+          description: User Not Found
+        '409':
+          description: Email Already Taken
+      description: Update the information of an existing user.
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateUserRequest'
+  /user:
+    post:
+      summary: Create New User
+      tags: ["User API"]
+      operationId: post-user
+      responses:
+        '200':
+          description: User Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                New User Bob Fellow:
+                  value:
+                    id: 12
+                    first_name: Bob
+                    last_name: Fellow
+                    email: bob.fellow@gmail.com
+                    email_verified: false
+        '400':
+          description: Missing Required Information
+        '409':
+          description: Email Already Taken
+      description: Create a new user.
+      requestBody:
+        $ref: '#/components/requestBodies/CreateUserRequest'
+components:
+  schemas:
+    User:
+      $ref: ./models/user-service/User.yaml
+      examples:
+        - id: 0
+          first_name: string
+          last_name: string
+          email: user@example.com
+          email_verified: true
+  requestBodies:
+    CreateUserRequest:
+      content:
+        application/json:
+          schema:
+            $ref: ./models/user-service/CreateUserRequest.yaml
+          examples:
+            Create User Bob Fellow:
+              value:
+                first_name: Bob
+                last_name: Fellow
+                email: bob.fellow@gmail.com
+      description: Create a new user request
+    UpdateUserRequest:
+      content:
+        application/json:
+          schema:
+            $ref: ./models/user-service/UpdateUserRequest.yaml
+          examples:
+            Update First Name:
+              value:
+                first_name: Rebecca
+            Update Email:
+              value:
+                email: rebecca@gmail.com
+            Update Last Name & Email:
+              value:
+                last_name: Baker
+                email: foo@bar.com
+  responses: {}
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+  examples: {}
+tags:
+  - name: User API
+security:
+  - Authorization: []

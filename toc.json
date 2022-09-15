@@ -1,0 +1,36 @@
+{
+  "items": [
+    {
+      "type": "divider",
+      "title": "APIS"
+    },
+    {
+      "type": "item",
+      "title": "Kong API",
+      "uri": "/openapi/v1/kong-api.yaml"
+    },
+    {
+      "type": "divider",
+      "title": "Models"
+    },
+    {
+      "type": "item",
+      "title": "User",
+      "uri": "/openapi/v1/models/user-service/User.yaml"
+    },
+    {
+      "type": "divider",
+      "title": "Requests"
+    },
+    {
+      "type": "item",
+      "title": "CreateUserRequest",
+      "uri": "/openapi/v1/models/user-service/CreateUserRequest.yaml"
+    },
+    {
+      "type": "item",
+      "title": "UpdateUserRequest",
+      "uri": "/openapi/v1/models/user-service/UpdateUserRequest.yaml"
+    }
+  ]
+}
