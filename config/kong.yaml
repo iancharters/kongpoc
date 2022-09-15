@@ -79,6 +79,15 @@ consumers:
   - algorithm: RS256
     key: $AUTH0_ISSUER_URL
     rsa_public_key: |
-      $AUTH0_PUBLIC_KEY
+      -----BEGIN PUBLIC KEY-----
+      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzM69+0tEco6H0gxR8Zvz
+      ZEtGr50sMx3XfTSqpAieP6OAbOi8VI8PUiipCXbHAGy6yVbdrYmG0qTExb8aX1lW
+      8TUYLsKa0U6Jyf+i0u50MbJ4RR1Y8cdu6NJYU8ZgQgb031J0uo7q9K3A0yTj+OaV
+      6WPr4pTD/1CfK8+x/OOjLU0GfpxjlZl7FFHaTthckD51oLVWb0/AwlT6k/WhrpXU
+      npse/CHWItdKHi34vjIOgw5lngBsJraOzcLNT96axgDk+176xHX2HNbtSz3jucVV
+      NA2fZkprYk2I3oBjRk4enfsXw4PEE4Z5YDloQmxUnv6WpiCnKnNR/MowsLgYj04O
+      nwIDAQAB
+      -----END PUBLIC KEY-----
+
     secret: does-not-matter
 
