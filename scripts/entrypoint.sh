@@ -11,10 +11,11 @@ curl -o $PUB_KEY $AUTH0_ISSUER_URL/pem
 openssl x509 -pubkey -noout -in $PUB_KEY > .tmp && mv .tmp $PUB_KEY
 
 # Inject public key into auth0 consumer rsa_public_key field
-# https://mikefarah.gitbook.io/yq/usage/tips-and-tricks#split-expressions-over-multiple-lines-to-improve-readability
+# TODO: https://mikefarah.gitbook.io/yq/usage/tips-and-tricks#split-expressions-over-multiple-lines-to-improve-readability
 yq -i '(.consumers[] | select(.username == "auth0")).jwt_secrets[0].rsa_public_key = "'"$(< $PUB_KEY)"'"' $KONG_CONFIG
 
-# Run envsubst across entire file and fail if any vars are null or empty
+# Run envsubst across entire file and fail with a non-zero exit code if any vars
+# are null or empty.
 yq '(.. | select(tag == "!!str")) |= envsubst(ne, nu)' $KONG_CONFIG
 
 # Run command for normal Kong entrypoint

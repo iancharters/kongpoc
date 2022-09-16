@@ -71,6 +71,6 @@ consumers:
       - algorithm: $RS256
         key: $AUTH0_ISSUER_URL
         # this field is not used, but we have to set it for linting purposes
-        secret: no-touchy
+        secret: pls-no-touchy
         # rsa_public_key is set on app startup in the entrypoint script using yq
-        rsa_public_key: also-no-touchy
+        rsa_public_key: also-pls-no-touchy
