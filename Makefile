@@ -10,7 +10,3 @@ kong-dbless:
 clean:
 	docker-compose kill
 	docker-compose rm -f
-
-# Replaces all variable references with their stored environment variables
-hydrate-config:
-	envsubst < $(KONG_CONFIG) > $(TMP_CONFIG) && mv $(TMP_CONFIG) $(KONG_CONFIG)

@@ -28,13 +28,12 @@ make kong-dbless
 - [x] Stand up basic Kong service
 - [x] Add healthz endpoint
 - [x] Add JWT validation
-- [ ] Create a templating script to load values dynamically
+- [x] Create a templating script to load values dynamically
+- [x] Create entrypoint script to run templating before loading the service
 - [ ] Make protoc plugin to generate OpenAPI model and request bodies from protos
 - [ ] Generate OpenAPI models from external protobufs
 - [ ] Generate OpenAPI request bodies from external protobuf annotations
 - [ ] Create container or single command script to run these actions
-- [ ] Create a templating script to load values dynamically
-- [ ] Create entrypoint script to run templating before loading the service
 - [ ] Add Datadog tracing and logging
 - [ ] Build a Dockerfile for base Kong container
-- [ ] Command to copy service protobufs from remote repos to load locally
+- [ ] Demonstrate using git submodule to load remote protos

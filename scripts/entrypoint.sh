@@ -1,10 +1,10 @@
 #!/bin/sh
+
 set -e
 
 KONG_CONFIG=../config/kong.yaml
 PUB_KEY=pubkey.pem
 
-# Retrieve X509 certificate
 echo "Pulling X509 certificate from $AUTH0_ISSUER_URL"
 curl -o $PUB_KEY ${AUTH0_ISSUER_URL%/}/pem
 
@@ -22,7 +22,7 @@ echo "Injecting Kong config"
 # TODO: https://mikefarah.gitbook.io/yq/usage/tips-and-tricks#split-expressions-over-multiple-lines-to-improve-readability
 yq -i '(.consumers[] | select(.username == "auth0")).jwt_secrets[0].rsa_public_key = "'"$(< $PUB_KEY)"'"' $KONG_CONFIG
 
-# Remove so this doesn't linger when running locally
+# Remove so this doesn't linger when running container locally
 rm pubkey.pem
 
 # Run envsubst across entire file and fail with a non-zero exit code if any vars

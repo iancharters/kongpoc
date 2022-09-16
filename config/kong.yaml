@@ -65,17 +65,8 @@ consumers:
   - username: auth0
     jwt_secrets:
       - algorithm: RS256
-        key: https://fiascodev.auth0.com/
+        key: $AUTH0_ISSUER_URL
         # this field is not used, but we have to set it for linting purposes
         secret: pls-no-touchy
         # rsa_public_key is set on app startup in the entrypoint script using yq
-        rsa_public_key: |-
-          -----BEGIN PUBLIC KEY-----
-          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzM69+0tEco6H0gxR8Zvz
-          ZEtGr50sMx3XfTSqpAieP6OAbOi8VI8PUiipCXbHAGy6yVbdrYmG0qTExb8aX1lW
-          8TUYLsKa0U6Jyf+i0u50MbJ4RR1Y8cdu6NJYU8ZgQgb031J0uo7q9K3A0yTj+OaV
-          6WPr4pTD/1CfK8+x/OOjLU0GfpxjlZl7FFHaTthckD51oLVWb0/AwlT6k/WhrpXU
-          npse/CHWItdKHi34vjIOgw5lngBsJraOzcLNT96axgDk+176xHX2HNbtSz3jucVV
-          NA2fZkprYk2I3oBjRk4enfsXw4PEE4Z5YDloQmxUnv6WpiCnKnNR/MowsLgYj04O
-          nwIDAQAB
-          -----END PUBLIC KEY-----
+        rsa_public_key: x
