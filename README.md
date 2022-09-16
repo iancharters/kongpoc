@@ -37,3 +37,4 @@ make kong-dbless
 - [ ] Create entrypoint script to run templating before loading the service
 - [ ] Add Datadog tracing and logging
 - [ ] Build a Dockerfile for base Kong container
+- [ ] Command to copy service protobufs from remote repos to load locally

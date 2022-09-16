@@ -1,93 +1,76 @@
-
 _format_version: "2.1"
 
 ################################### SERVICES ###################################
 services:
- - name: mock-grpc-service-foo
-   host: host.docker.internal
-   port: 4770
-   protocol: grpc
-   routes:
-   - name: foo-routes
-     protocols:
-     - http
-     paths:
-     - /hello
-     plugins:
-     - name: grpc-gateway
-       config:
-        proto: proto/foo.proto
-
+  - name: mock-grpc-service-foo
+    host: host.docker.internal
+    port: 4770
+    protocol: grpc
+    routes:
+      - name: foo-routes
+        protocols:
+          - http
+        paths:
+          - /hello
+        plugins:
+          - name: grpc-gateway
+            config:
+              proto: proto/foo.proto
 
 ################################### ROUTES #####################################
-
 # A dummy route outside of service definitions used as a plugin target
 routes:
-- name: healthz
-  protocols:
-  - http
-  paths:
-  - /healthz
+  - name: healthz
+    protocols:
+      - http
+    paths:
+      - /healthz
 
 ################################### PLUGINS ####################################
-
 # https://docs.konghq.com/hub/kong-inc/jwt/
 plugins:
-- name: jwt
-  service: mock-grpc-service-foo
-
-# https://docs.konghq.com/hub/kong-inc/request-termination/
-- name: request-termination
-  route: healthz
-  config:
-    status_code: 200
-    body: '{"state":"OK"}'
-
-# https://docs.konghq.com/hub/kong-inc/cors/
-- name: cors
-  config: 
-    origins:
-    - "*"
-    headers:
-    - Authorization
-    - Content-Type
-    - X-Transaction-ID
-    - x-datadog-origin
-    - x-datadog-parent-id
-    - x-datadog-sampled
-    - x-datadog-sampling-priority
-    - x-datadog-trace-id
-    exposed_headers:
-    # pagination headers used by webserver
-    - QueryMeta-total
-    - QueryMeta-limit
-    - QueryMeta-offset
-    credentials: true # investigate this
-    max_age: 3600
-    preflight_continue: false # investigate this
-
-# https://docs.datadoghq.com/integrations/kong/?tab=host#metric-collection
-# Do we actually need or use this?
-- name: prometheus
+  - name: jwt
+    service: mock-grpc-service-foo
+  # https://docs.konghq.com/hub/kong-inc/request-termination/
+  - name: request-termination
+    route: healthz
+    config:
+      status_code: 200
+      body: '{"state":"OK"}'
+  # https://docs.konghq.com/hub/kong-inc/cors/
+  - name: cors
+    config:
+      origins:
+        - "*"
+      headers:
+        - Authorization
+        - Content-Type
+        - X-Transaction-ID
+        - x-datadog-origin
+        - x-datadog-parent-id
+        - x-datadog-sampled
+        - x-datadog-sampling-priority
+        - x-datadog-trace-id
+      exposed_headers:
+        # pagination headers used by webserver
+        - QueryMeta-total
+        - QueryMeta-limit
+        - QueryMeta-offset
+      credentials: true # investigate this
+      max_age: 3600
+      preflight_continue: false # investigate this
+  # https://docs.datadoghq.com/integrations/kong/?tab=host#metric-collection
+  # Do we actually need or use this?
+  - name: prometheus
 
 ################################## CONSUMERS ###################################
-
 # In order to validate JWTs we need to do this magic with a consumer ¯\_(ツ)_/¯
 consumers:
-- username: anonymous
-  jwt_secrets:
-  - algorithm: RS256
-    key: $AUTH0_ISSUER_URL
-    rsa_public_key: |
-      -----BEGIN PUBLIC KEY-----
-      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzM69+0tEco6H0gxR8Zvz
-      ZEtGr50sMx3XfTSqpAieP6OAbOi8VI8PUiipCXbHAGy6yVbdrYmG0qTExb8aX1lW
-      8TUYLsKa0U6Jyf+i0u50MbJ4RR1Y8cdu6NJYU8ZgQgb031J0uo7q9K3A0yTj+OaV
-      6WPr4pTD/1CfK8+x/OOjLU0GfpxjlZl7FFHaTthckD51oLVWb0/AwlT6k/WhrpXU
-      npse/CHWItdKHi34vjIOgw5lngBsJraOzcLNT96axgDk+176xHX2HNbtSz3jucVV
-      NA2fZkprYk2I3oBjRk4enfsXw4PEE4Z5YDloQmxUnv6WpiCnKnNR/MowsLgYj04O
-      nwIDAQAB
-      -----END PUBLIC KEY-----
-
-    secret: does-not-matter
-
+  - username: auth0
+    jwt_secrets:
+      - algorithm: $RS256
+        key: $AUTH0_ISSUER_URL
+        # this field is not used, but we have to set it for linting purposes
+        secret: no-touchy
+        # rsa_public_key is set on app startup in the entrypoint script using yq
+        rsa_public_key: also-no-touchy
