@@ -1,10 +1,14 @@
 #!/bin/sh
 
+# TODO: Figure out how we can guarantee container does not start if any of these
+# functions fail
+set -e
+
 KONG_CONFIG=../config/kong.yaml
 PUB_KEY=pubkey.pem
 
 # Retrieve X509 certificate
-curl -o $PUB_KEY $AUTH0_ISSUER_URL/pem
+curl -o $PUB_KEY ${AUTH0_ISSUER_URL%/}/pem
 
 # Extract public key from cert.  This will fail with a non-zero exit code if the
 # previous step did not produce a proper certificate for whatever reason.
@@ -16,7 +20,7 @@ yq -i '(.consumers[] | select(.username == "auth0")).jwt_secrets[0].rsa_public_k
 
 # Run envsubst across entire file and fail with a non-zero exit code if any vars
 # are null or empty.
-yq '(.. | select(tag == "!!str")) |= envsubst(ne, nu)' $KONG_CONFIG
+yq -i '(.. | select(tag == "!!str")) |= envsubst(ne, nu)' $KONG_CONFIG
 
 # Run command for normal Kong entrypoint
 kong docker-start
