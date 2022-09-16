@@ -1,5 +1,4 @@
 _format_version: "2.1"
-
 ################################### SERVICES ###################################
 services:
   - name: mock-grpc-service-foo
@@ -16,7 +15,6 @@ services:
           - name: grpc-gateway
             config:
               proto: proto/foo.proto
-
 ################################### ROUTES #####################################
 # A dummy route outside of service definitions used as a plugin target
 routes:
@@ -25,7 +23,6 @@ routes:
       - http
     paths:
       - /healthz
-
 ################################### PLUGINS ####################################
 # https://docs.konghq.com/hub/kong-inc/jwt/
 plugins:
@@ -62,15 +59,23 @@ plugins:
   # https://docs.datadoghq.com/integrations/kong/?tab=host#metric-collection
   # Do we actually need or use this?
   - name: prometheus
-
 ################################## CONSUMERS ###################################
 # In order to validate JWTs we need to do this magic with a consumer ¯\_(ツ)_/¯
 consumers:
   - username: auth0
     jwt_secrets:
-      - algorithm: $RS256
-        key: $AUTH0_ISSUER_URL
+      - algorithm: RS256
+        key: https://fiascodev.auth0.com/
         # this field is not used, but we have to set it for linting purposes
         secret: pls-no-touchy
         # rsa_public_key is set on app startup in the entrypoint script using yq
-        rsa_public_key: also-pls-no-touchy
+        rsa_public_key: |-
+          -----BEGIN PUBLIC KEY-----
+          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzM69+0tEco6H0gxR8Zvz
+          ZEtGr50sMx3XfTSqpAieP6OAbOi8VI8PUiipCXbHAGy6yVbdrYmG0qTExb8aX1lW
+          8TUYLsKa0U6Jyf+i0u50MbJ4RR1Y8cdu6NJYU8ZgQgb031J0uo7q9K3A0yTj+OaV
+          6WPr4pTD/1CfK8+x/OOjLU0GfpxjlZl7FFHaTthckD51oLVWb0/AwlT6k/WhrpXU
+          npse/CHWItdKHi34vjIOgw5lngBsJraOzcLNT96axgDk+176xHX2HNbtSz3jucVV
+          NA2fZkprYk2I3oBjRk4enfsXw4PEE4Z5YDloQmxUnv6WpiCnKnNR/MowsLgYj04O
+          nwIDAQAB
+          -----END PUBLIC KEY-----
